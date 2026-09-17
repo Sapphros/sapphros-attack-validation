@@ -2,7 +2,6 @@ import json
 import sys
 from pathlib import Path
 
-
 HOST_REQUIREMENTS = {
     "sapphros-attack": {
         "minimum_memory_mb": 4096,
