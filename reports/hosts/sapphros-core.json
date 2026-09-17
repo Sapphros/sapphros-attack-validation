@@ -1,0 +1,10 @@
+{
+  "hostname": "sapphros-core",
+  "distribution": "Ubuntu",
+  "version": "26.04",
+  "kernel": "7.0.0-31-generic",
+  "architecture": "x86_64",
+  "processor_cores": 10,
+  "memory_mb": 15160,
+  "root_free_mb": 82660
+}

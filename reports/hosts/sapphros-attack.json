@@ -1,0 +1,10 @@
+{
+  "hostname": "sapphros-attack",
+  "distribution": "Ubuntu",
+  "version": "26.04",
+  "kernel": "7.0.0-31-generic",
+  "architecture": "x86_64",
+  "processor_cores": 6,
+  "memory_mb": 6779,
+  "root_free_mb": 72244
+}

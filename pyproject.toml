@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sapphros-attack-validation"
+version = "0.1.0"
+description = "Threat-informed security control validation for the Sapphros homelab"
+requires-python = ">=3.12"
+
+[project.scripts]
+sapphros-validate = "sapphros_validator.validator:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
