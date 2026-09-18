@@ -1,0 +1,83 @@
+<Sysmon schemaversion="4.82">
+  <!-- Sapphros Attack Validation Lab -->
+  <!-- Broad endpoint telemetry with focused high-noise event filtering. -->
+
+  <HashAlgorithms>SHA256,IMPHASH</HashAlgorithms>
+  <CheckRevocation>true</CheckRevocation>
+  <DnsLookup>false</DnsLookup>
+
+  <EventFiltering>
+    <!-- Event ID 1: command lines, parents, hashes, and process GUIDs -->
+    <ProcessCreate onmatch="exclude" />
+
+    <!-- Event ID 2: timestomping visibility -->
+    <FileCreateTime onmatch="exclude" />
+
+    <!-- Event ID 3: process-associated network connections -->
+    <NetworkConnect onmatch="exclude" />
+
+    <!-- Event ID 6: retain non-Microsoft driver loads -->
+    <DriverLoad onmatch="exclude">
+      <Signature condition="contains">Microsoft</Signature>
+      <Signature condition="contains">Windows</Signature>
+    </DriverLoad>
+
+    <!-- Event ID 8: process injection behavior -->
+    <CreateRemoteThread onmatch="exclude" />
+
+    <!-- Event ID 10: focused credential-access telemetry -->
+    <ProcessAccess onmatch="include">
+      <TargetImage
+        name="attack-t1003-lsass-access"
+        condition="end with">\lsass.exe</TargetImage>
+    </ProcessAccess>
+
+    <!-- Event ID 11: common payload staging locations -->
+    <FileCreate onmatch="include">
+      <TargetFilename
+        name="staging-temp"
+        condition="contains">\Temp\</TargetFilename>
+      <TargetFilename
+        name="staging-downloads"
+        condition="contains">\Downloads\</TargetFilename>
+      <TargetFilename
+        name="staging-programdata"
+        condition="contains">\ProgramData\</TargetFilename>
+      <TargetFilename
+        name="persistence-startup"
+        condition="contains">\Start Menu\Programs\Startup\</TargetFilename>
+    </FileCreate>
+
+    <!-- Event IDs 12-14: common persistence locations -->
+    <RegistryEvent onmatch="include">
+      <TargetObject
+        name="persistence-run"
+        condition="contains">\CurrentVersion\Run</TargetObject>
+      <TargetObject
+        name="persistence-services"
+        condition="contains">\Services\</TargetObject>
+    </RegistryEvent>
+
+    <!-- Event IDs 17-18: named-pipe activity -->
+    <PipeEvent onmatch="exclude" />
+
+    <!-- Event IDs 19-21: WMI persistence -->
+    <WmiEvent onmatch="exclude" />
+
+    <!-- Event ID 22: process-associated DNS queries -->
+    <DnsQuery onmatch="exclude" />
+
+    <!-- Event ID 25: process hollowing and related tampering -->
+    <ProcessTampering onmatch="exclude" />
+
+    <!-- Event ID 26: deletion from common staging locations -->
+    <FileDeleteDetected onmatch="include">
+      <TargetFilename
+        name="delete-temp"
+        condition="contains">\Temp\</TargetFilename>
+      <TargetFilename
+        name="delete-downloads"
+        condition="contains">\Downloads\</TargetFilename>
+    </FileDeleteDetected>
+  </EventFiltering>
+</Sysmon>
