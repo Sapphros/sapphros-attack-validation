@@ -1,7 +1,7 @@
 # Sapphros Threat-Informed Attack Validation
 
-A Python and Ansible security validation lab that maps controlled adversary
-emulation to defensive telemetry, Sigma detections, repeatable validation, and
+I built this Python and Ansible security validation lab to map controlled adversary
+emulation with defensive telemetry, Sigma detections, repeatable validation, and
 documented security findings.
 
 This project is being developed as a practical demonstration of detection
@@ -208,7 +208,7 @@ sapphros-attack-validation/
 
 ## Safety and Scope
 
-This project is restricted to systems owned and controlled by the project
+This project is restricted to systems owned and controlled by me, the project
 author. Adversary-emulation activities are executed only inside the isolated
 Sapphros homelab for defensive research, detection validation, and education.
 
