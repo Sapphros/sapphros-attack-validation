@@ -1,0 +1,31 @@
+title: Non-Defender Process Access to LSASS Memory
+id: 6d2f8b34-9a1e-4c5d-b7f3-0e8a2c9d5f47
+status: experimental
+description: >
+    Detects a process other than Windows Defender's own engine (MsMpEng.exe) opening a
+    handle to lsass.exe, consistent with T1003.001 credential dumping. This rule was tuned
+    after the Sapphros Attack Validation Lab "Dump LSASS.exe Memory using comsvcs.dll"
+    exercise showed that Defender's own remediation scan generates a ProcessAccess event
+    against lsass.exe that would otherwise register as a false positive under a
+    source-process-blind version of this rule.
+references:
+    - https://attack.mitre.org/techniques/T1003/001/
+author: Lucas Smith (Sapphros)
+date: 2026/09/19
+tags:
+    - attack.credential-access
+    - attack.t1003.001
+logsource:
+    product: windows
+    category: process_access
+    definition: 'Requires Sysmon Event ID 10 with the attack-t1003-lsass-access filter in configs/sysmon/sysmonconfig.xml'
+detection:
+    selection:
+        EventID: 10
+        TargetImage|endswith: '\lsass.exe'
+    filter_defender:
+        SourceImage|contains: '\Windows Defender\'
+    condition: selection and not filter_defender
+falsepositives:
+    - Legitimate security or backup software accessing LSASS
+level: high

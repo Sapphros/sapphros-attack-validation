@@ -71,6 +71,22 @@ Future ATT&CK coverage report
 | Core node resource baseline | PASS |
 | Python unit tests | 4 PASSED |
 
+## Detection Validation Results
+
+The first closed-loop ATT&CK adversary emulation exercise ran three
+techniques against `win-target-01` via Caldera. Full write-up:
+[docs/detection-validation-001.md](docs/detection-validation-001.md).
+
+| Technique | Tactic | Result |
+|---|---|---|
+| T1547.001 – Registry Run Keys | Persistence | Detected |
+| T1003.001 – LSASS Memory (comsvcs.dll) | Credential Access | Prevented (Defender), rule tuned to remove false positive |
+| T1070.004 – File Deletion | Defense Evasion | Detected |
+
+Scenario definition: [scenarios/sapphros-detection-validation-v1.yml](scenarios/sapphros-detection-validation-v1.yml)
+Sigma rules: [detections/sigma/](detections/sigma/)
+Raw evidence: [reports/operations/sapphros-detection-validation-v1.json](reports/operations/sapphros-detection-validation-v1.json)
+
 ## Running the Baseline Validation
 
 Activate the Python environment:

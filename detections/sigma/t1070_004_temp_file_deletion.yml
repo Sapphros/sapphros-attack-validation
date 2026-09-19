@@ -1,0 +1,28 @@
+title: File Deletion in Common Staging Directories
+id: 3a5d7e91-6c2b-4f18-8e0a-1b9c4d6f2a83
+status: experimental
+description: >
+    Detects deletion of files from Temp or Downloads directories, consistent with the
+    T1070.004 indicator-removal technique. Validated against the Sapphros Attack Validation
+    Lab using Caldera's "Delete a single file - Windows PowerShell" ability.
+references:
+    - https://attack.mitre.org/techniques/T1070/004/
+author: Lucas Smith (Sapphros)
+date: 2026/09/19
+tags:
+    - attack.defense-evasion
+    - attack.t1070.004
+logsource:
+    product: windows
+    category: file_delete
+    definition: 'Requires Sysmon Event ID 26 with the delete-temp/delete-downloads filters in configs/sysmon/sysmonconfig.xml'
+detection:
+    selection:
+        EventID: 26
+        TargetFilename|contains:
+            - '\Temp\'
+            - '\Downloads\'
+    condition: selection
+falsepositives:
+    - Normal user or application cleanup of temporary files
+level: low

@@ -1,0 +1,27 @@
+title: Registry Run Key Persistence via Reg Add
+id: 8f1e9c2a-4b7d-4e3a-9c1f-2d8a6b5e7f10
+status: experimental
+description: >
+    Detects creation or modification of HKCU/HKLM Run key values, consistent with the
+    T1547.001 persistence technique. Validated against the Sapphros Attack Validation Lab
+    using Caldera's "Reg Key Run" ability.
+references:
+    - https://attack.mitre.org/techniques/T1547/001/
+author: Lucas Smith (Sapphros)
+date: 2026/09/19
+tags:
+    - attack.persistence
+    - attack.privilege-escalation
+    - attack.t1547.001
+logsource:
+    product: windows
+    category: registry_set
+    definition: 'Requires Sysmon Event ID 13 with the persistence-run filter in configs/sysmon/sysmonconfig.xml'
+detection:
+    selection:
+        EventID: 13
+        TargetObject|contains: '\CurrentVersion\Run\'
+    condition: selection
+falsepositives:
+    - Legitimate software installers registering with the Run key
+level: medium

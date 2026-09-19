@@ -1,0 +1,36 @@
+{
+  "operation_id": "c30c6a6a-91c3-4c52-851d-4f33bd18fe24",
+  "operation_name": "sapphros-detection-validation-v1",
+  "adversary_id": "81b7a477-258a-4c9a-968c-227ebde7d692",
+  "target_host": "win-target-01",
+  "agent_paw": "zfnbxi",
+  "start_time": "2026-09-19T04:30:31Z",
+  "state": "finished",
+  "chain": [
+    {"technique_id": "T1547.001", "ability": "Reg Key Run", "status": 0, "finish": "2026-09-19T04:30:41Z"},
+    {"technique_id": "T1003.001", "ability": "Dump LSASS.exe Memory using comsvcs.dll", "status": 1, "finish": "2026-09-19T04:31:22Z"},
+    {"technique_id": "T1070.004", "ability": "Delete a single file - Windows PowerShell", "status": 0, "finish": "2026-09-19T04:31:59Z"},
+    {"technique_id": "T1003.001", "ability": "Dump LSASS.exe Memory using comsvcs.dll", "status": 1, "finish": "2026-09-19T04:33:01Z"},
+    {"technique_id": "T1547.001", "ability": "Reg Key Run", "status": 0, "finish": "2026-09-19T04:33:03Z"}
+  ],
+  "sysmon_evidence": [
+    {"event_id": 13, "technique_id": "T1547.001", "time": "2026-09-19T04:30:39Z", "target_object": "HKU\\S-1-5-21-2620636624-428462497-3851630612-1001\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Atomic Red Team"},
+    {"event_id": 26, "technique_id": "T1070.004", "time": "2026-09-19T04:31:56Z", "target_filename": "C:\\Users\\sapphros-admin\\AppData\\Local\\Temp\\deleteme_T1551.004", "image": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"},
+    {"event_id": 10, "technique_id": "T1003.001", "time": "2026-09-19T04:31:20Z", "source_image": "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26080.4-0\\MsMpEng.exe", "target_image": "C:\\WINDOWS\\system32\\lsass.exe", "note": "Defender's own remediation scan, not attacker activity"},
+    {"event_id": 8, "technique_id": "incidental", "time": "2026-09-19T04:31:20Z", "source_image": "C:\\Sapphros\\Tools\\sandcat.exe", "target_image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "note": "Sandcat agent execution mechanism, not a planned technique"}
+  ],
+  "defender_detections": [
+    {
+      "threat_id": 2147793100,
+      "threat_name": "Trojan:Win32/RundllLolBin.AF",
+      "detection_time": "2026-09-19T04:31:20Z",
+      "remediation_time": "2026-09-19T04:31:31Z",
+      "command_line": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -ExecutionPolicy Bypass -C C:\\Windows\\System32\\rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump (Get-Process lsass).id $env:TEMP\\lsass-comsvcs.dmp full"
+    }
+  ],
+  "results_summary": {
+    "T1547.001": "DETECTED",
+    "T1003.001": "PREVENTED",
+    "T1070.004": "DETECTED"
+  }
+}
